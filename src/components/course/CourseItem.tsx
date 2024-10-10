@@ -15,7 +15,7 @@ const CourseItem = () => {
     },
   ];
   return (
-    <div className="p-4 bg-white border border-gray-200 rounded-lg">
+    <div className="p-4 bg-white dark:bg-grayDarker dark:border-opacity-10 border border-gray-200 rounded-lg">
       <Link href="#" className="block h-[180px]">
         <Image
           src="https://images.unsplash.com/photo-1667372393096-9c864313e868?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -31,7 +31,7 @@ const CourseItem = () => {
         <h3 className="font-bold text-lg mb-5">
           Khóa học Typescript cơ bản dành cho người mới
         </h3>
-        <div className="flex items-center gap-3 mb-5 text-xs text-gray-500">
+        <div className="flex items-center gap-3 mb-5 text-xs text-gray-500 dark:text-grayDark">
           {courseInfo.map((item, index) => (
             <div key={index} className="flex items-center gap-2">
               {item.icon("size-4")}

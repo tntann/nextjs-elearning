@@ -1,11 +1,13 @@
 import React from "react";
 import { menuItems } from "@/constants";
-import ActiveLink from "../common/ActiveLink";
 import { TMenuItem } from "@/types";
+import { ActiveLink } from "../common";
+import { UserButton } from "@clerk/nextjs";
+import { ModeToggle } from "../common/ModeToggle";
 
 const Sidebar = () => {
   return (
-    <div className="p-5 border-r border-r-gray-200 bg-white">
+    <div className="p-5 border-r border-r-gray-200 bg-white dark:border-opacity-10 dark:bg-grayDarker flex flex-col">
       <a href="/" className="logo font-bold text-3xl inline-block mb-5">
         <span className="text-primary">E-</span>
         learning
@@ -20,6 +22,10 @@ const Sidebar = () => {
           ></MenuItem>
         ))}
       </ul>
+      <div className="mt-auto flex items-center justify-end gap-4">
+        <ModeToggle />
+        <UserButton />
+      </div>
     </div>
   );
 };
