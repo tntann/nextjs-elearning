@@ -10,7 +10,7 @@ import { TMenuItem } from "@/types";
 export const menuItems: TMenuItem[] = [
   {
     url: "/",
-    title: "Khám phá",
+    title: "Khoá học",
     icon: <IconExplore className="size-5" />,
   },
   {

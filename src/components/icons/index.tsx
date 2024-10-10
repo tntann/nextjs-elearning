@@ -5,3 +5,6 @@ export { default as IconOrder } from "./IconOrder";
 export { default as IconComment } from "./IconComment";
 export { default as IconUsers } from "./IconUsers";
 export { default as IconCourse } from "./IconCourse";
+export { default as IconClock } from "./IconClock";
+export { default as IconStar } from "./IconStar";
+export { default as IconEye } from "./IconEye";
