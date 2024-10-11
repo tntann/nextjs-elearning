@@ -8,9 +8,14 @@ import { ModeToggle } from "../common/ModeToggle";
 const Sidebar = () => {
   return (
     <div className="p-5 border-r border-r-gray-200 bg-white dark:border-opacity-10 dark:bg-grayDarker flex flex-col">
-      <a href="/" className="logo font-bold text-3xl inline-block mb-5">
-        <span className="text-primary">E-</span>
-        learning
+      <a
+        href="/"
+        className="font-bold text-2xl inline-flex items-center gap-2 mb-5 h-10 self-start"
+      >
+        <span className="size-10 rounded-lg flex items-center justify-center text-lg text-primary border dark:border-gray-700">
+          U
+        </span>
+        E-learning
       </a>
       <ul className="flex flex-col gap-2">
         {menuItems.map((item, index) => (
