@@ -1,7 +1,14 @@
+import CourseAddNew from "@/components/course/CourseAddNew";
+import Heading from "@/components/typography/Heading";
 import React from "react";
 
 const page = () => {
-  return <div>Manage Course</div>;
+  return (
+    <>
+      <Heading>Tạo khoá học mới</Heading>
+      <CourseAddNew></CourseAddNew>
+    </>
+  );
 };
 
 export default page;
