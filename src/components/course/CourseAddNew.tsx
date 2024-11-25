@@ -46,6 +46,7 @@ function CourseAddNew() {
       console.log("🚀 ~ onSubmit ~ data:", data);
       // await createCourse(values)
     } catch (error) {
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
