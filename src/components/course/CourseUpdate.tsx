@@ -16,6 +16,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Textarea } from "../ui/textarea";
 import { ECourseLevel, ECourseStatus } from "@/types/enums";
+import { updateCourse } from "@/lib/actions/course.actions";
+import { ICourse } from "@/database/course.model";
+import { toast } from "react-toastify";
 
 const formSchema = z.object({
   title: z.string().min(10, "Tên khoá học phải có ít nhất 10 ký tự"),
@@ -25,7 +28,7 @@ const formSchema = z.object({
   intro_url: z.string().optional(),
   desc: z.string().optional(),
   image: z.string().optional(),
-  views: z.number().int().positive().optional(),
+  views: z.number().int().optional(),
   status: z
     .enum([
       ECourseStatus.APPROVED,
@@ -43,38 +46,58 @@ const formSchema = z.object({
   info: z.object({
     requirements: z.array(z.string()).optional(),
     benefits: z.array(z.string()).optional(),
-    qa: z.array(
-      z.object({
-        question: z.string(),
-        answer: z.string(),
-      })
-    ),
+    qa: z
+      .array(
+        z.object({
+          question: z.string(),
+          answer: z.string(),
+        })
+      )
+      .optional(),
   }),
 });
 
-const CourseUpdate = () => {
+const CourseUpdate = ({ data }: { data: ICourse }) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      slug: "",
-      price: 0,
-      sale_price: 0,
-      intro_url: "",
-      desc: "",
-      image: "",
-      status: ECourseStatus.PENDING,
-      level: ECourseLevel.BEGINNER,
-      views: 0,
+      title: data.title,
+      slug: data.slug,
+      price: data.price,
+      sale_price: data.sale_price,
+      intro_url: data.intro_url,
+      desc: data.desc,
+      image: data.image,
+      status: data.status,
+      level: data.level,
+      views: data.views,
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
+      const res = await updateCourse({
+        slug: data.slug,
+        updateData: {
+          title: values.title,
+          slug: values.slug,
+          price: values.price,
+          sale_price: values.sale_price,
+          intro_url: values.intro_url,
+          desc: values.desc,
+          views: values.views,
+        },
+      });
+      if (values.slug) {
+        router.replace(`/manage/course/update?slug=${values.slug}`);
+      }
+      if (res?.success) {
+        toast.success(res.message);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -121,7 +144,12 @@ const CourseUpdate = () => {
               <FormItem>
                 <FormLabel>Giá khuyến mại</FormLabel>
                 <FormControl>
-                  <Input placeholder="599.000" {...field} />
+                  <Input
+                    type="number"
+                    placeholder="599.000"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -135,7 +163,12 @@ const CourseUpdate = () => {
               <FormItem>
                 <FormLabel>Giá gốc</FormLabel>
                 <FormControl>
-                  <Input placeholder="999.000" {...field} />
+                  <Input
+                    type="number"
+                    placeholder="999.000"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -198,7 +231,12 @@ const CourseUpdate = () => {
               <FormItem>
                 <FormLabel>Lượt xem</FormLabel>
                 <FormControl>
-                  <Input placeholder="1000" type="number" {...field} />
+                  <Input
+                    placeholder="1000"
+                    type="number"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
