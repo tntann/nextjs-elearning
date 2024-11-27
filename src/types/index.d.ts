@@ -21,4 +21,5 @@ export type TCreateUserPrams = {
 export type TCreateCourseParams = {
   title: string;
   slug: string;
+  author: string;
 };
