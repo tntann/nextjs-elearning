@@ -5,7 +5,6 @@ import { getAllCourses } from "@/lib/actions/course.actions";
 
 const page = async () => {
   const courses = (await getAllCourses()) || [];
-  // console.log("🚀 ~ page ~ courses:", courses);
   return (
     <div>
       <Heading>Khoá học</Heading>
