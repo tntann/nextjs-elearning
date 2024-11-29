@@ -1,4 +1,5 @@
 import {
+  IconCheck,
   IconClock,
   IconCourse,
   IconEye,
@@ -21,16 +22,31 @@ const page = async ({
     slug: params.slug,
   });
   if (!data) return null;
+
+  const videoId = data.intro_url?.split("v=")[1];
   return (
     <div className="grid lg:grid-cols-[2fr,1fr] gap-10 min-h-screen">
       <div>
         <div className="relative aspect-video mb-5">
-          <Image
-            src="https://images.unsplash.com/photo-1667372393096-9c864313e868?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            fill
-            className="w-full h-full object-cover rounded-md"
-          ></Image>
+          {data.intro_url ? (
+            <>
+              <iframe
+                width="1850"
+                height="785"
+                src={`https://www.youtube.com/embed/${videoId}`}
+                title="Học TypeScript cho React Developer (2024)"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                className="w-full h-full object-fill"
+              ></iframe>
+            </>
+          ) : (
+            <Image
+              src="https://images.unsplash.com/photo-1667372393096-9c864313e868?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt=""
+              fill
+              className="w-full h-full object-cover rounded-md"
+            ></Image>
+          )}
         </div>
         <h1 className="font-bold text-3xl mb-5">{data.title}</h1>
         <BoxSection title="Mô tả">
@@ -53,20 +69,30 @@ const page = async ({
             </BoxInfo>
             <BoxInfo title="Lượt xem">
               <IconEye className="size-5"></IconEye>
-              3739
+              {data.views}
             </BoxInfo>
           </div>
         </BoxSection>
 
         <BoxSection title="Yêu cầu">
           {data.info.requirements.map((r, index) => (
-            <div key={index}>{r}</div>
+            <div key={index} className="mb-3 flex items-center gap-2">
+              <span className="flex-shrink-0 bg-primary size-5 text-white p-1 rounded flex items-center justify-center">
+                <IconCheck />
+              </span>
+              <span>{r}</span>
+            </div>
           ))}
         </BoxSection>
 
         <BoxSection title="Lợi ích">
           {data.info.benefits.map((b, index) => (
-            <div key={index}>{b}</div>
+            <div key={index} className="mb-3 flex items-center gap-2">
+              <span className="flex-shrink-0 bg-primary size-5 text-white p-1 rounded flex items-center justify-center">
+                <IconCheck />
+              </span>
+              <span>{b}</span>
+            </div>
           ))}
         </BoxSection>
 
