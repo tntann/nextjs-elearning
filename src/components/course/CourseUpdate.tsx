@@ -22,6 +22,16 @@ import { ICourse } from "@/database/course.model";
 import { toast } from "react-toastify";
 import { useImmer } from "use-immer";
 import { IconAdd } from "../icons";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { courseLevel, courseStatus } from "@/constants";
+import { UploadButton } from "@/utils/uploadthing";
+import Image from "next/image";
 
 const formSchema = z.object({
   title: z.string().min(10, "Tên khoá học phải có ít nhất 10 ký tự"),
@@ -102,12 +112,15 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
           sale_price: values.sale_price,
           intro_url: values.intro_url,
           desc: values.desc,
+          image: values.image,
           views: values.views,
           info: {
             requirements: courseInfo.requirements,
             benefits: courseInfo.benefits,
             qa: courseInfo.qa,
           },
+          status: values.status,
+          level: values.level,
         },
       });
       if (values.slug) {
@@ -122,6 +135,8 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
       setIsSubmitting(false);
     }
   }
+
+  const imageWatch = form.watch("image");
 
   return (
     <Form {...form}>
@@ -218,7 +233,29 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
               <FormItem>
                 <FormLabel>Ảnh khoá học</FormLabel>
                 <FormControl>
-                  <div className="h-[200px] bg-white rounded-md border border-gray-200"></div>
+                  <>
+                    <div className="h-[200px] bg-white rounded-md border border-gray-200 flex items-center justify-center relative">
+                      {!imageWatch ? (
+                        <UploadButton
+                          endpoint="imageUploader"
+                          onClientUploadComplete={(res) => {
+                            // Do something with the response
+                            form.setValue("image", res[0].url);
+                          }}
+                          onUploadError={(error: Error) => {
+                            console.error(`ERROR! ${error.message}`);
+                          }}
+                        />
+                      ) : (
+                        <Image
+                          src={imageWatch}
+                          alt=""
+                          fill
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+                  </>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -267,7 +304,23 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Trạng thái</FormLabel>
-                <FormControl></FormControl>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Trạng thái" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {courseStatus.map((status) => (
+                        <SelectItem key={status.value} value={status.value}>
+                          {status.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -278,8 +331,24 @@ const CourseUpdate = ({ data }: { data: ICourse }) => {
             name="level"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Level</FormLabel>
-                <FormControl></FormControl>
+                <FormLabel>Trình độ</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Trình độ" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {courseLevel.map((level) => (
+                        <SelectItem key={level.value} value={level.value}>
+                          {level.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

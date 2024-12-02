@@ -1,3 +1,4 @@
+import PageNotFound from "@/app/not-found";
 import {
   IconCheck,
   IconClock,
@@ -8,7 +9,9 @@ import {
   IconUsers,
 } from "@/components/icons";
 import { Button } from "@/components/ui/button";
+import { courseLevelTitle } from "@/constants";
 import { getCourseBySlug } from "@/lib/actions/course.actions";
+import { ECourseStatus } from "@/types/enums";
 import Image from "next/image";
 
 const page = async ({
@@ -22,6 +25,7 @@ const page = async ({
     slug: params.slug,
   });
   if (!data) return null;
+  if (data.status !== ECourseStatus.APPROVED) return <PageNotFound />;
 
   const videoId = data.intro_url?.split("v=")[1];
   return (
@@ -41,7 +45,7 @@ const page = async ({
             </>
           ) : (
             <Image
-              src="https://images.unsplash.com/photo-1667372393096-9c864313e868?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={data.image}
               alt=""
               fill
               className="w-full h-full object-cover rounded-md"
@@ -61,7 +65,7 @@ const page = async ({
             </BoxInfo>
             <BoxInfo title="Mức độ">
               <IconCourse className="size-5"></IconCourse>
-              Dễ
+              {courseLevelTitle[data.level]}
             </BoxInfo>
             <BoxInfo title="Tổng thời gian">
               <IconClock className="size-5"></IconClock>
