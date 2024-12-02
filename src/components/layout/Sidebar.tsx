@@ -11,7 +11,7 @@ import { IconUsers } from "../icons";
 const Sidebar = () => {
   const { userId } = useAuth();
   return (
-    <div className="hidden p-5 border-r border-r-gray-200 bg-white dark:border-opacity-10 dark:bg-grayDarker lg:flex flex-col fixed top-0 left-0 bottom-0 w-[300px]">
+    <div className="hidden p-5 border-r bgDarkMode borderDarkMode lg:flex flex-col fixed top-0 left-0 bottom-0 w-[300px]">
       <a
         href="/"
         className="font-bold text-2xl inline-flex items-center gap-2 mb-5 h-10 self-start"

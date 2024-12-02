@@ -1,5 +1,11 @@
+import CourseManage from "@/components/course/CourseManage";
+
 const page = () => {
-  return <div>Manage Course</div>;
+  return (
+    <>
+      <CourseManage></CourseManage>
+    </>
+  );
 };
 
 export default page;
