@@ -12,15 +12,15 @@ const Sidebar = () => {
   const { userId } = useAuth();
   return (
     <div className="hidden p-5 border-r bgDarkMode borderDarkMode lg:flex flex-col fixed top-0 left-0 bottom-0 w-[300px]">
-      <a
+      <Link
         href="/"
         className="font-bold text-2xl inline-flex items-center gap-2 mb-5 h-10 self-start"
       >
         <span className="size-10 rounded-lg flex items-center justify-center text-lg text-primary border dark:border-gray-700">
           U
         </span>
-        E-learning
-      </a>
+        <span className="text-primary">learning</span>
+      </Link>
       <ul className="flex flex-col gap-2">
         {menuItems.map((item, index) => (
           <MenuItem
@@ -48,12 +48,17 @@ const Sidebar = () => {
   );
 };
 
-const MenuItem = ({ url = "/", title = "", icon }: TMenuItem) => {
+export const MenuItem = ({
+  url = "/",
+  title = "",
+  icon,
+  onlyIcon,
+}: TMenuItem) => {
   return (
     <li>
       <ActiveLink url={url}>
         {icon}
-        {title}
+        {onlyIcon ? null : title}
       </ActiveLink>
     </li>
   );

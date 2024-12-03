@@ -13,6 +13,12 @@ import { courseLevelTitle } from "@/constants";
 import { getCourseBySlug } from "@/lib/actions/course.actions";
 import { ECourseStatus } from "@/types/enums";
 import Image from "next/image";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const page = async ({
   params,
@@ -73,7 +79,7 @@ const page = async ({
             </BoxInfo>
             <BoxInfo title="Lượt xem">
               <IconEye className="size-5"></IconEye>
-              {data.views}
+              {data.views.toLocaleString()}
             </BoxInfo>
           </div>
         </BoxSection>
@@ -102,21 +108,23 @@ const page = async ({
 
         <BoxSection title="Q/A">
           {data.info.qa.map((qa, index) => (
-            <div key={index}>
-              <div>{qa.question}</div>
-              <div>{qa.answer}</div>
-            </div>
+            <Accordion type="single" collapsible key={index}>
+              <AccordionItem value={qa.question}>
+                <AccordionTrigger>{qa.question}</AccordionTrigger>
+                <AccordionContent>{qa.answer}</AccordionContent>
+              </AccordionItem>
+            </Accordion>
           ))}
         </BoxSection>
       </div>
       <div>
-        <div className="bg-white rounded-lg p-5">
+        <div className="bg-white dark:bgDarkMode dark:borderDarkMode rounded-lg p-5">
           <div className="flex items-center gap-2 mb-3">
             <strong className="text-[#ff695a] text-xl font-bold">
-              {data.sale_price}
+              {data.sale_price.toLocaleString()} VNĐ
             </strong>
             <span className="text-slate-400 text-sm line-through">
-              {data.price}
+              {data.price.toLocaleString()} VNĐ
             </span>
             <span className="ml-auto inline-block px-3 py-1 rounded-lg bg-primary text-primary bg-opacity-10 font-semibold text-sm">
               {Math.floor((data.sale_price / data.price) * 100)}%
@@ -158,7 +166,7 @@ function BoxInfo({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white rounded-lg p-5">
+    <div className="bg-white dark:bgDarkMode dark:borderDarkMode rounded-lg p-5">
       <h4 className="text-sm text-slate-400 font-normal">{title}</h4>
       <h3 className="font-bold flex gap-1 items-center">{children}</h3>
     </div>
