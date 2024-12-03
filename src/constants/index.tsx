@@ -92,4 +92,6 @@ export const commonClassNames = {
     "bg-opacity-10 border border-current rounded-md font-medium px-3 py-1 text-sm",
   action:
     "size-9 rounded-md border flex items-center justify-center p-2 bg-gray-100 text-gray-500 hover:bg-white dark:bg-transparent borderDarkMode dark:hover:bg-gray-800",
+  paginationButton:
+    "size-10 rounded-md borderDarkMode bgDarkMode border flex items-center justify-center hover:border-primary transition-all hover:text-primary",
 };
